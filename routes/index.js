@@ -3,10 +3,10 @@ var async = require('async');
 var express = require('express');
 var router = express.Router();
 
-URL_CTZP = "https://simpatico.morelab.deusto.es/qae/api";
-// URL_CTZP = "https://simpatico.hi-iberia.es:4569/qae/api";
-// URL_IFE = "https://simpatico.hi-iberia.es:4570/simpatico/api";
-URL_IFE = "http://localhost:8090/simpatico/api";
+// URL_CTZP = "https://simpatico.morelab.deusto.es/qae/api";
+URL_CTZP = "https://simpatico.hi-iberia.es:4569/qae/api";
+URL_IFE = "https://simpatico.hi-iberia.es:4570/simpatico/api";
+// URL_IFE = "http://localhost:8090/simpatico/api";
 
 
 router.get('/stats/:eservice?', function(req, res, next) {
