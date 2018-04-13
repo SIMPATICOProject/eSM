@@ -1,0 +1,66 @@
+html, body {
+  padding: 0;
+  margin: 0;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  height: 100%;
+  width: 100%; }
+
+button {
+  padding: 10px;
+  -webkit-appearance: none;
+  background-color: white;
+  border: 1px solid #969393;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 15px; }
+
+#simpatico_body {
+  height: 100%;
+  display: flex;
+  flex-direction: column; }
+
+#simpatico_header {
+  display: flex;
+  flex-direction: row;
+  padding: 0 20px;
+  flex: 0 0 65px;
+  border: 1px solid #ddd; }
+  #simpatico_header #simpatico_logo {
+    flex: 0 0 300px;
+    padding: 10px; }
+    #simpatico_header #simpatico_logo img {
+      height: 50px;
+      max-width: 200px; }
+  #simpatico_header #simpatico_tabs {
+    display: flex;
+    flex-direction: row;
+    flex: 1; }
+    #simpatico_header #simpatico_tabs .header_tab {
+      padding: 5px 0px;
+      flex: 1;
+      text-align: center;
+      line-height: 80px;
+      font-size: 20px;
+      max-width: 200px;
+      color: #909090; }
+      #simpatico_header #simpatico_tabs .header_tab.active {
+        color: black; }
+        #simpatico_header #simpatico_tabs .header_tab.active a {
+          border-bottom: 1px solid white; }
+      #simpatico_header #simpatico_tabs .header_tab:hover {
+        color: black; }
+      #simpatico_header #simpatico_tabs .header_tab a {
+        border: 1px solid #DDD;
+        border-bottom: none;
+        border-radius: 5px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        line-height: 40px;
+        display: inline-block;
+        width: 100%;
+        background-color: white;
+        text-decoration: none; }
+        #simpatico_header #simpatico_tabs .header_tab a:link, #simpatico_header #simpatico_tabs .header_tab a:visited, #simpatico_header #simpatico_tabs .header_tab a:active {
+          color: inherit; }
+
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,103 @@
+
+#simpatico_content
+  display: flex
+  flex-direction: row
+  overflow-y: scroll
+  flex: 1
+  margin-top: 20px
+
+  & > div
+    padding: 0px 20px 20px
+
+    &.left_content
+      width: 30%
+      display: flex
+      flex-direction: column
+      flex: 1
+
+    &.right_content
+      padding-top: 20px
+      flex: 0 0 400px
+      display: flex
+      flex-direction: column
+
+
+#service_paragraphs
+  margin-top: 20px
+  flex: 1
+  overflow-y: scroll
+  border: 1px solid black
+
+  .service_paragraph
+    display: flex
+    flex-direction: row
+    padding-bottom: 15px
+    background-color: white
+    border-bottom: 1px solid #d6d6d6
+
+    &:nth-child(odd)
+      background-color: #FAFAFA
+
+    .service_excerpt
+      position: relative
+      flex: 1
+      border: 1px solid black
+      border-style: dashed solid
+      margin: 10px 10px 0 10px
+
+      p
+        margin: 10px
+
+      .paragraph_number
+        position: absolute
+        top: 0
+        right: 0
+        opacity: 0.7
+        background-color: white
+
+        &:hover
+          opacity: 0
+
+    .paragraph_info
+      flex: 0 0 230px
+      margin: 10px 15px 0
+
+      .tags
+        margin: 10px 0
+
+        .tag
+          display: inline-block
+          padding: 3px
+          margin: 3px
+          border: 1px solid #DDD
+          border-radius: 10px
+          background-color: #b8e5ff
+
+      .ctzp_link
+        text-align: center
+
+        a:link, a:visited, a:active
+          color: #3992fb
+
+.info_line
+  display: flex
+  flex-direction: row
+
+  span:nth-child(1)
+    flex: 1
+
+  span:nth-child(3)
+    flex: 0 0 50px
+    padding-left: 12px
+    text-align: right
+
+#question_stats
+  flex: 1
+  max-width: 300px
+
+#cloud
+  flex: 0 0 250px
+
+#cloud_canvas
+  border: 1px solid #DDD
+  margin-top: 10px

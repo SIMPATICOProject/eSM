@@ -1,0 +1,115 @@
+extends layout
+
+block title
+  title= t('tabs.stats')
+
+block styles
+  link(rel="stylesheet", href="/css/stats.css")
+    
+block scripts
+  script(src="/js/vendor/Chart.bundle.min.js")
+  script(src="/js/vendor/wordcloud2.js")
+  script(src="/js/stats.js")
+  script.
+    var json = new Object(!{json});
+    var faces = new Object(!{faces});
+  
+
+block content
+  .left_content
+    .service_selector
+      .select
+        select(name="service")#service_select
+          option(value="")= t('actions.choose_service')
+          option(value="BS607A") Programa Benestar en Balnearios
+          option(value="BS613B") Ayudas individuales para personas con discapacidad
+      span= t('actions.filter')
+    #service_information
+      div#total_requests
+        span= t('stats.total_requests')
+        span.separator :
+        span.result= total_requests
+      div#finished_requests
+        span= t('stats.finished_requests')
+        span.separator :
+        span.result= ended_requests
+      div#mean_time
+        span= t('stats.mean_time')
+        span.separator :
+        span.result= mean_time
+      div#average_age
+        span= t('stats.average_age')
+        span.separator :
+        span.result= average_age
+    #service_graphs
+      button#date_graph
+        i.fa.fa-line-chart
+        = t('stats.dates_graph')
+      button#hour_graph
+        i.fa.fa-line-chart
+        = t('stats.times_graph')
+    
+      
+
+  .right_content
+    h2= t('stats.satisfaction')
+    #info_graphic
+      #info_graphic_chart
+        #chart
+          canvas#satisfaction_pie(width="300" height="300")
+        #legend
+          .legend_pie
+            .legend_square.happy_legend
+            i.fa.fa-smile-o  
+          .legend_pie
+            .legend_square.meh_legend
+            i.fa.fa-meh-o  
+          .legend_pie
+            .legend_square.sad_legend
+            i.fa.fa-frown-o  
+      #cloud
+        canvas#cloud_canvas
+      //- TODO: Chart
+      //- TODO: TagCloud
+    #info_progress
+      .progress_category
+        img(src="/img/citizenpedia.png")
+        .progress_data
+          .progress_title= t('stats.questions')
+          .progress_line
+            span.line_header= t('stats.use')
+            meter(min="0" max="100" value=use_ctzp)
+            span.line_percentage= use_ctzp + "%"
+          .progress_line
+            span.line_header= t('stats.useful')
+            meter(min="0" max="100" value=useful_ctzp)
+            span.line_percentage= useful_ctzp + "%"
+      .progress_category
+        img(src="/img/simplify.png")
+        .progress_data
+          .progress_title= t('stats.simplify')
+          .progress_line
+            span.line_header= t('stats.use')
+            meter(min="0" max="100" value=use_simpl)
+            span.line_percentage= use_simpl + "%"
+          .progress_line
+            span.line_header= t('stats.useful')
+            meter(min="0" max="100" value=useful_simpl)
+            span.line_percentage= useful_simpl + "%"
+          .progress_line
+            span.line_header= t('stats.simpl_relevant')
+            meter(min="0" max="100" value=relevant_simpl)
+            span.line_percentage= relevant_simpl + "%"
+      .progress_category
+        img(src="/img/cdv.png")
+        .progress_data
+          .progress_title= t('stats.cdv')
+          .progress_line
+            span.line_header= t('stats.use')
+            meter(min="0" max="100" value=use_cdv)
+            span.line_percentage= use_cdv + "%"
+          //- .progress_line
+          //-   span.line_header= t('stats.useful')
+          //-   meter(min="0" max="100")
+          //-   span.line_percentage
+        

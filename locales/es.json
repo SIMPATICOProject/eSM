@@ -1,0 +1,37 @@
+{
+  "tabs": {
+    "stats": "Estadísticas",
+    "qandas": "Preguntas",
+    "simpl": "Simplificar"
+  },
+  "actions": {
+    "choose_service": "Elige servicio",
+    "filter": "Filtrar"
+  },
+  "stats": {
+    "total_requests": "Solicitudes totales",
+    "finished_requests": "Solicitudes terminadas",
+    "mean_time": "Tiempo medio",
+    "average_age": "Edad media solicitud",
+    "satisfaction": "Satisfacción",
+    "global": "Global",
+    "comments": "Comentarios",
+    "questions": "Preguntas",
+    "use": "¿Uso?",
+    "useful": "¿Útil?",
+    "simpl_relevant": "¿Relevante?",
+    "simplify": "Simplificación",
+    "cdv": "Datos - CDV",
+    "dates_graph": "Fechas",
+    "times_graph": "Horas"
+  },
+  "qandas": {
+    "total_questions": "Total preguntas",
+    "total_answers": "Total respuestas",
+    "total_votes": "Total votos",
+    "see_ctzp": "Ver en CTZP",
+    "question_stats": "Estadísticas preguntas",
+    "most_seen_topics": "Temas más vistos",
+    "paragraph": "Párrafo"
+  }
+}

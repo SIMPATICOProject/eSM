@@ -1,0 +1,108 @@
+.service_selector .select {
+  display: inline-block;
+  position: relative; }
+
+.service_selector span {
+  display: inline-block;
+  margin: 0 20px;
+  cursor: pointer; }
+  .service_selector span:hover {
+    text-decoration: underline; }
+
+#service_graphs {
+  margin: 20px;
+  text-align: center; }
+  #service_graphs button {
+    margin: 0 15px; }
+    #service_graphs button i {
+      margin-right: 5px; }
+
+#simpatico_content {
+  display: flex;
+  flex-direction: row;
+  overflow-y: scroll;
+  flex: 1;
+  margin-top: 20px; }
+  #simpatico_content > div {
+    padding: 0px 30px; }
+    #simpatico_content > div.left_content {
+      border-right: 1px solid #DDD;
+      min-width: 400px;
+      width: 40%; }
+    #simpatico_content > div.right_content h2 {
+      margin-top: 0;
+      text-transform: uppercase; }
+
+#service_information {
+  margin: 20px 5px 0;
+  line-height: 30px; }
+  #service_information > div {
+    max-width: 400px; }
+    #service_information > div .result {
+      float: right; }
+
+#info_graphic {
+  display: flex;
+  flex-direction: row; }
+
+#info_graphic_chart {
+  display: flex;
+  flex-direction: row;
+  padding-right: 30px;
+  border-right: 1px solid #DDD; }
+
+#chart {
+  display: inline-block;
+  height: 180px;
+  width: 180px; }
+
+#legend {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 24px;
+  margin-left: 20px; }
+  #legend .legend_pie {
+    margin: 5px; }
+    #legend .legend_pie .legend_square {
+      display: inline-block;
+      height: 20px;
+      width: 40px;
+      margin-right: 5px;
+      border: 1px solid black; }
+      #legend .legend_pie .legend_square.happy_legend {
+        background-color: #399e4c; }
+      #legend .legend_pie .legend_square.meh_legend {
+        background-color: #1ebbd9; }
+      #legend .legend_pie .legend_square.sad_legend {
+        background-color: #de443e; }
+
+#info_progress {
+  display: flex;
+  flex-direction: column; }
+  #info_progress .progress_category {
+    display: flex;
+    flex-direction: row;
+    margin: 10px 0; }
+    #info_progress .progress_category img {
+      width: 100px;
+      height: 100px;
+      border: 2px solid black; }
+    #info_progress .progress_category .progress_data {
+      padding-left: 15px; }
+      #info_progress .progress_category .progress_data .progress_title {
+        text-transform: uppercase;
+        margin-bottom: 10px; }
+      #info_progress .progress_category .progress_data .progress_line {
+        line-height: 25px; }
+        #info_progress .progress_category .progress_data .progress_line .line_header {
+          display: inline-block;
+          width: 120px; }
+        #info_progress .progress_category .progress_data .progress_line meter {
+          width: 250px; }
+        #info_progress .progress_category .progress_data .progress_line .line_percentage {
+          display: inline-block;
+          width: 30px;
+          text-align: right; }
+
+/*# sourceMappingURL=stats.css.map */

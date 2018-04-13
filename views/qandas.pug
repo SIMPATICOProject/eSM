@@ -1,0 +1,67 @@
+extends layout
+
+block title
+  title= t('tabs.qandas')
+
+block styles
+  link(rel="stylesheet", href="/css/qandas.css")
+    
+block scripts
+  script(src="/js/vendor/wordcloud2.js")
+  script(src="/js/qandas.js")
+  script.
+    var json = new Object(!{json});
+
+block content
+  .left_content
+    .service_selector
+      select(name="service")#service_select
+        option(value="")= t('actions.choose_service')
+        option(value="BS607A") Programa Benestar en Balnearios
+        option(value="BS613B") Ayudas individuales para personas con discapacidad
+    #service_paragraphs
+      each pg in paragraphs
+        .service_paragraph
+          .service_excerpt
+            p= pg.text
+            .paragraph_number= t('qandas.paragraph') + pg.index
+          .paragraph_info
+            .info_line
+              span= t('qandas.total_questions')
+              span :
+              span= pg.questions
+            .info_line
+              span= t('qandas.total_answers')
+              span :
+              span= pg.answers
+            .info_line
+              span= t('qandas.total_votes')
+              span :
+              span= pg.votes
+            .tags
+              each tag in pg.tags
+                .tag= tag.text
+            .ctzp_link
+              a(href="")= t('qandas.see_ctzp')
+        
+          
+
+  .right_content
+    #question_stats
+      h2= t('qandas.question_stats')
+      .info_line
+        span= t('qandas.total_questions')
+        span :
+        span= total_questions
+      .info_line
+        span= t('qandas.total_answers')
+        span :
+        span= total_answers
+      .info_line
+        span= t('qandas.total_votes')
+        span :
+        span= total_votes
+      
+    #cloud= t('qandas.most_seen_topics')
+      canvas#cloud_canvas(width="400" height="220")
+        
