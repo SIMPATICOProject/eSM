@@ -46,12 +46,12 @@ i18next
   .init({
     fallbackLng: 'es',
     backend: {
-      loadPath: 'locales/{{lng}}.json'
+      loadPath: __dirname+'/locales/{{lng}}.json'
     },
     preload: ['es', 'en', 'it'],
     order: ['session']
-  }, function(){
-
+  }, function(err, t){
+    console.log(t);
   }
 );
 app.use(middleware.handle(i18next, {
@@ -61,6 +61,7 @@ app.use(middleware.handle(i18next, {
 
 app.use(function(req, res, next) {
   console.log(req.session);
+  console.log(req.i18n);
   // next();
   if(req.session.hasSession){
     next();
