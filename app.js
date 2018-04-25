@@ -60,16 +60,17 @@ app.use(middleware.handle(i18next, {
 
 
 app.use(function(req, res, next) {
-  next();
-  // if(req.session.hasSession){
-  //   next();
-  // }else{
-  //   if(req.path == "/login" ){
-  //     next();
-  //   }else{
-  //     res.render('login');
-  //   }
-  // }
+  console.log(req.session);
+  // next();
+  if(req.session.hasSession){
+    next();
+  }else{
+    if(req.path == "/login" ){
+      next();
+    }else{
+      res.render('login');
+    }
+  }
 });
 
 

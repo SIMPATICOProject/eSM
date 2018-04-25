@@ -79,11 +79,11 @@ block content
           .progress_line
             span.line_header= t('stats.use')
             meter(min="0" max="100" value=use_ctzp)
-            span.line_percentage= use_ctzp + "%"
+            span.line_percentage= (use_ctzp || 0) + "%"
           .progress_line
             span.line_header= t('stats.useful')
             meter(min="0" max="100" value=useful_ctzp)
-            span.line_percentage= useful_ctzp + "%"
+            span.line_percentage= (useful_ctzp || 0) + "%"
       .progress_category
         img(src="/img/simplify.png")
         .progress_data
@@ -91,15 +91,15 @@ block content
           .progress_line
             span.line_header= t('stats.use')
             meter(min="0" max="100" value=use_simpl)
-            span.line_percentage= use_simpl + "%"
+            span.line_percentage= (use_simpl || 0) + "%"
           .progress_line
             span.line_header= t('stats.useful')
             meter(min="0" max="100" value=useful_simpl)
-            span.line_percentage= useful_simpl + "%"
+            span.line_percentage= (useful_simpl || 0) + "%"
           .progress_line
             span.line_header= t('stats.simpl_relevant')
             meter(min="0" max="100" value=relevant_simpl)
-            span.line_percentage= relevant_simpl + "%"
+            span.line_percentage= (relevant_simpl || 0) + "%"
       .progress_category
         img(src="/img/cdv.png")
         .progress_data
@@ -107,7 +107,7 @@ block content
           .progress_line
             span.line_header= t('stats.use')
             meter(min="0" max="100" value=use_cdv)
-            span.line_percentage= use_cdv + "%"
+            span.line_percentage= (use_cdv || 0) + "%"
           //- .progress_line
           //-   span.line_header= t('stats.useful')
           //-   meter(min="0" max="100")

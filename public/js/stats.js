@@ -2,7 +2,8 @@ $(document).ready(function(){
 
 
   var href = window.location.href;
-  $('#service_select').val(href.substring(href.lastIndexOf('/')+1));
+  var serviceName = href.substring(href.lastIndexOf('/')+1);
+  $('#service_select').val(serviceName.length > 0? serviceName : "");
 
   $('#service_select').change(function(){
     window.location.href="/stats/"+$(this).val();
@@ -40,18 +41,29 @@ $(document).ready(function(){
 
 
   //TODO: Analyse text to get most common words and "weigh" them
+  // WordCloud(
+  //   document.getElementById('cloud_canvas'),
+  //   {
+  //     list: [
+  //       ['entiendo', 20],
+  //       ['difícil', 16],
+  //       ['palabra', 14],
+  //       ['no', 14],
+  //       ['balneario', 14],
+  //       ['simple', 14],
+  //       ['esto', 14],
+  //       ['texto', 12]
+  //     ]
+  //   }
+  // );
   WordCloud(
     document.getElementById('cloud_canvas'),
     {
       list: [
-        ['entiendo', 20],
-        ['difícil', 16],
-        ['palabra', 14],
-        ['no', 14],
-        ['balneario', 14],
-        ['simple', 14],
-        ['esto', 14],
-        ['texto', 12]
+        ['word', 20],
+        ['cloud', 16],
+        ['not', 14],
+        ['available', 14]
       ]
     }
   );

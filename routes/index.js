@@ -3,11 +3,20 @@ var async = require('async');
 var express = require('express');
 var router = express.Router();
 
-// URL_CTZP = "https://simpatico.morelab.deusto.es/qae/api";
-URL_CTZP = "https://simpatico.hi-iberia.es:4569/qae/api";
-URL_IFE = "https://simpatico.hi-iberia.es:4570/simpatico/api";
-// URL_IFE = "http://localhost:8090/simpatico/api";
+var urls = require('../properties.json');
 
+if (urls) {
+  URL_CTZP = urls.citizenpedia_url;
+  URL_IFE = urls.ife_url;
+} else {
+  URL_CTZP = "https://simpatico.hi-iberia.es:4569/qae/api";
+  URL_IFE = "https://simpatico.hi-iberia.es:4570/simpatico/api";
+}
+
+router.get('/', function(req, res, next) {
+  //TODO: Default landing tab
+  res.redirect('/stats/');
+});
 
 router.get('/stats/:eservice?', function(req, res, next) {
 
@@ -108,11 +117,13 @@ router.get('/qandas/:eservice?', function(req, res, next) {
     async.parallel([
       function(cb) {
         requestCTZP(eservice, null, 'questions', function(err, result){
+          console.log(result);
           cb(err, result);
         });
       },
       function(cb) {
         requestCTZP(eservice, null, 'answers', function(err, result){
+          console.log(result);
           cb(err, result);
         });
       }
@@ -122,32 +133,37 @@ router.get('/qandas/:eservice?', function(req, res, next) {
       var totalV = 0;
       var paragraphs = [];
 
-      results[1].forEach(function(obj){
-        totalA += obj.answers.length;
-        totalV += obj.stars.length;
+      console.log(results);
 
-        //TODO: Should be regarding a particular paragraph :)
-        // For now though, let's assume questions == paragraphs
+      if (results.length > 1) {
+        results[1].forEach(function(obj){
+          totalA += obj.answers.length;
+          totalV += obj.stars.length;
 
-        var paragraph = {
-          index: paragraphs.length+1,
-          text: "This is supposed to be a paragraph, but this part is still pending, I hope we eventually get the code to be able to obtain this text properly.",
-          questions: 1,
-          answers: obj.answers.length,
-          votes: obj.stars.length,
-          tags: obj.tags
-        };
-        paragraphs.push(paragraph);
+          //TODO: Should be regarding a particular paragraph :)
+          // For now though, let's assume questions == paragraphs
 
-      });
+          var paragraph = {
+            index: paragraphs.length+1,
+            text: "This is a temporary paragraph text. In future versions, the corresponding text will be shown here.",
+            questions: 1,
+            answers: obj.answers.length,
+            votes: obj.stars.length,
+            tags: obj.tags
+          };
+          paragraphs.push(paragraph);
+
+        });
+      }
+
 
 
       var locals = {
-        total_questions: results[0],
+        total_questions: results.length > 1? results[0] : 0,
         total_answers: totalA,
         total_votes: totalV,
         paragraphs: paragraphs,
-        json: JSON.stringify(results[1])
+        json: results.length > 1? JSON.stringify(results[1]) : []
       };
 
       console.log(locals);
@@ -179,6 +195,11 @@ router.post('/login', function(req, res, next) {
   res.redirect('/stats');
 });
 
+router.post('/logout', function(req, res, next) {
+  req.session.destroy();
+  res.send({logout: 'success'});
+});
+
 module.exports = router;
 
 
@@ -191,7 +212,13 @@ function requestCTZP (eservice, paragraph, type, callback){
   console.log(URL_CTZP+apicall);
 
   request(URL_CTZP+apicall, function(error, response, body) {
+    console.log(error);
     if(error) return callback(error);
+
+    console.log("+++++++++++++++++++++++");
+    console.log(response);
+    console.log(body);
+    console.log("-----------------------");
 
     if(typeof body === "string"){
       try {
