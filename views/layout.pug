@@ -1,25 +1,26 @@
 doctype html
 html
   head
+    base(href=baseURL)
     block title
-    link(rel="stylesheet" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css")
-    link(rel="stylesheet", href="/css/style.css")
+    link(rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css")
+    link(rel="stylesheet", href="css/style.css")
     block styles
-    script(src="/js/vendor/jquery.min.js")
-    script(src="/js/simpatico.js")
+    script(src="js/vendor/jquery.min.js")
+    script(src="js/simpatico.js")
     block scripts
   body
     #simpatico_body
       #simpatico_header
         #simpatico_logo
-          img(src="/img/logo_simpatico.png")
+          img(src="img/logo_simpatico.png")
         #simpatico_tabs
           .header_tab
-            a(href="/stats")= t('tabs.stats')
+            a(href="stats")= t('tabs.stats')
           .header_tab
-            a(href="/qandas")= t('tabs.qandas')
+            a(href="qandas")= t('tabs.qandas')
           .header_tab
-            a(href="/simpl")= t('tabs.simpl')
+            a(href="simpl")= t('tabs.simpl')
         #simpatico_user
           span Logout
       #simpatico_content

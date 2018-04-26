@@ -12,6 +12,7 @@ var middleware = require('i18next-express-middleware');
 var session = require('express-session');
 
 var index = require('./routes/index');
+var properties = require('./properties.json');
 
 var app = express();
 
@@ -60,6 +61,10 @@ app.use(middleware.handle(i18next, {
 
 
 app.use(function(req, res, next) {
+
+  res.locals.baseURL = properties.base_url || "/";
+
+
   // next();
   if(req.session.hasSession){
     next();

@@ -1,12 +1,13 @@
 html
   head
+    base(href=baseURL)
     title Simpatico Dashboard Login
-    link(rel="stylesheet" href="/css/login.css")
+    link(rel="stylesheet" href="css/login.css")
   body
     div
-      img(src="/img/logo_simpatico.png")
+      img(src="img/logo_simpatico.png")
       h3 Dashboard Login
-      form(action="/login" method="post")
+      form(action="login" method="post")
         input(type="input" placeholder="Username" required)
         input(type="password" placeholder="Password" required)
         input(type="submit" value="Sign in")
