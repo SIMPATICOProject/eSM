@@ -1,11 +1,12 @@
 $(document).ready(function(){
 
+  var baseURL = $('base').attr('href');
 
   var href = window.location.href;
   $('#service_select').val(href.substring(href.lastIndexOf('/')+1));
 
   $('#service_select').change(function(){
-    window.location.href="/qandas/"+$(this).val();
+    window.location.href=baseURL+"/qandas/"+$(this).val();
   });
 
 
