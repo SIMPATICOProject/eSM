@@ -15,7 +15,7 @@ if (urls) {
 
 router.get('/', function(req, res, next) {
   //TODO: Default landing tab
-  res.redirect('/stats/');
+  res.redirect(urls.base_url+'stats/');
 });
 
 router.get('/stats/:eservice?', function(req, res, next) {
@@ -192,7 +192,7 @@ router.get('/:page/:eservice?', function(req, res, next) {
 router.post('/login', function(req, res, next) {
   console.log("Logging in!");
   req.session.hasSession = true;
-  res.redirect('/stats');
+  res.redirect(urls.base_url+'stats');
 });
 
 router.post('/logout', function(req, res, next) {
