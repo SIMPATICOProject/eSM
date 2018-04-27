@@ -3,7 +3,10 @@ $(document).ready(function(){
   var baseURL = $('base').attr('href');
 
   var href = window.location.href;
-  $('#service_select').val(href.substring(href.lastIndexOf('/')+1));
+  var serviceName = href.substring(href.lastIndexOf('/')+1);
+  if ($('#service_select option[value="'+serviceName+'"]').length > 0) {
+    $('#service_select').val(serviceName);
+  }
 
   $('#service_select').change(function(){
     window.location.href=baseURL+"qandas/"+$(this).val();

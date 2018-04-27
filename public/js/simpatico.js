@@ -4,7 +4,9 @@ $(document).ready(function(){
 
   console.log(window.location.pathname);
   var pathparts = window.location.pathname.split("/");
-  $('a[href="/'+pathparts[1]+'"]').parent().addClass('active');
+  pathparts.forEach(function(part) {
+    $('.header_tab a[href="'+part+'"]').parent().addClass('active');
+  });
 
   $('.header_tab a').click(function(e){
     e.preventDefault();

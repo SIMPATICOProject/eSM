@@ -5,7 +5,9 @@ $(document).ready(function(){
 
   var href = window.location.href;
   var serviceName = href.substring(href.lastIndexOf('/')+1);
-  $('#service_select').val(serviceName.length > 0? serviceName : "");
+  if ($('#service_select option[value="'+serviceName+'"]').length > 0) {
+    $('#service_select').val(serviceName);
+  }
 
   $('#service_select').change(function(){
     window.location.href=baseURL+"stats/"+$(this).val();
