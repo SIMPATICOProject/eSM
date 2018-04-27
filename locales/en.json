@@ -5,7 +5,7 @@
     "simpl": "Simplification"
   },
   "actions": {
-    "choose_service": "Choose serviceElige servicio",
+    "choose_service": "Choose service",
     "filter": "Filter"
   },
   "stats": {

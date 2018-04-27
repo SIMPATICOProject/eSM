@@ -6,7 +6,7 @@ $(document).ready(function(){
   $('#service_select').val(href.substring(href.lastIndexOf('/')+1));
 
   $('#service_select').change(function(){
-    window.location.href=baseURL+"/qandas/"+$(this).val();
+    window.location.href=baseURL+"qandas/"+$(this).val();
   });
 
 

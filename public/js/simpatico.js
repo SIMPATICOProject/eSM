@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+  var baseURL = $('base').attr('href');
+
   console.log(window.location.pathname);
   var pathparts = window.location.pathname.split("/");
   $('a[href="/'+pathparts[1]+'"]').parent().addClass('active');
@@ -7,13 +9,16 @@ $(document).ready(function(){
   $('.header_tab a').click(function(e){
     e.preventDefault();
     var pathpart = window.location.pathname.split("/");
-    window.location.href = $(this).attr('href') + (pathpart.length > 2? "/"+pathpart[2] : "");
+
+    var service = $('#service_select').val();
+
+    window.location.href = baseURL+$(this).attr('href') + (service? "/"+service: "");
   });
 
   $('#simpatico_user span').click(function(){
-    $.post('/logout', {}, function(data){
+    $.post(baseURL+'logout', {}, function(data){
       if (data.hasOwnProperty('logout') && data.logout.localeCompare('success') == 0){
-        window.location.href = "/";
+        window.location.href = baseURL+"/";
       }
     });
   });

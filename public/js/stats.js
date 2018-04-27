@@ -8,7 +8,7 @@ $(document).ready(function(){
   $('#service_select').val(serviceName.length > 0? serviceName : "");
 
   $('#service_select').change(function(){
-    window.location.href=baseURL+"/stats/"+$(this).val();
+    window.location.href=baseURL+"stats/"+$(this).val();
   });
 
   var ctx = document.getElementById("satisfaction_pie");
