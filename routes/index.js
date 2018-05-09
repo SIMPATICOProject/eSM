@@ -3,19 +3,11 @@ var async = require('async');
 var express = require('express');
 var router = express.Router();
 
-var urls = require('../properties.json');
-
-if (urls) {
-  URL_CTZP = urls.citizenpedia_url;
-  URL_IFE = urls.ife_url;
-} else {
-  URL_CTZP = "https://simpatico.hi-iberia.es:4569/qae/api";
-  URL_IFE = "https://simpatico.hi-iberia.es:4570/simpatico/api";
-}
+var properties = require('../properties');
 
 router.get('/', function(req, res, next) {
   //TODO: Default landing tab
-  res.redirect(urls.base_url+'stats/');
+  res.redirect(properties.base_url+'stats/');
 });
 
 router.get('/stats/:eservice?', function(req, res, next) {
@@ -192,7 +184,7 @@ router.get('/:page/:eservice?', function(req, res, next) {
 router.post('/login', function(req, res, next) {
   console.log("Logging in!");
   req.session.hasSession = true;
-  res.redirect(urls.base_url+'stats');
+  res.redirect(properties.base_url+'stats');
 });
 
 router.post('/logout', function(req, res, next) {
@@ -209,9 +201,9 @@ function requestCTZP (eservice, paragraph, type, callback){
   if(type == "questions") apicall = "/stats/questions/"+eservice+(paragraph? "/"+paragraph : "");
   if(type == "answers" || type == "votes") apicall = "/qae/questions/"+eservice+(paragraph? "/"+paragraph : "");
 
-  console.log(URL_CTZP+apicall);
+  console.log(properties.ctzp_url+apicall);
 
-  request(URL_CTZP+apicall, function(error, response, body) {
+  request(properties.ctzp_url+apicall, function(error, response, body) {
     console.log(error);
     if(error) return callback(error);
 
@@ -244,12 +236,12 @@ function requestIFE (eservice, type, callback){
   if(type == "simpl") apicall = "/logs/find?common="+eservice+"&search=simplification_start";
   if(type == "cdv") apicall = "/logs/find?common="+eservice+"&search=usedata";
 
-  console.log(URL_IFE+apicall);
+  console.log(properties.ife_url+apicall);
 
-  request(URL_IFE+apicall, function(error, response, body) {
+  request(properties.ife_url+apicall, function(error, response, body) {
     if(error) return callback(error);
 
-    console.log("Success!! "+URL_IFE+apicall);
+    console.log("Success!! "+properties.ife_url+apicall);
     console.log(typeof body);
 
     var objBody = null;
