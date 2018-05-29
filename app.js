@@ -63,7 +63,7 @@ app.use(middleware.handle(i18next, {
 app.use(function(req, res, next) {
 
   res.locals.baseURL = properties.base_url;
-
+  res.locals.eservices = properties.eservices;
 
   // next();
   if(req.session.hasSession){

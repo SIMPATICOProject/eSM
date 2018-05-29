@@ -21,9 +21,8 @@ block content
       .select
         select(name="service")#service_select
           option(value="")= t('actions.choose_service')
-          option(value="BS607A") Programa Benestar en Balnearios
-          option(value="BS613B") Ayudas individuales para personas con discapacidad
-          option(value="BS611A") Reconocimiento del grado de discapacidad
+          each eservice in eservices
+            option(value=eservice.code)= eservice.name
       span= t('actions.filter')
     #service_information
       div#total_requests
@@ -49,6 +48,8 @@ block content
       button#hour_graph
         i.fa.fa-line-chart
         = t('stats.times_graph')
+    #service_map
+      
     
       
 

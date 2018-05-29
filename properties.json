@@ -1,5 +1,19 @@
 {
   "base_url": "/",
   "citizenpedia_url": "http://192.168.26.71:9000/api",
-  "ife_url": "https://simpatico.hi-iberia.es:4570/simpatico/api"
+  "ife_url": "https://simpatico.hi-iberia.es:4570/simpatico/api",
+  "eservices": [
+    {
+      "code": "BS607A",
+      "name": "Programa Benestar en Balnearios"
+    },
+    {
+      "code": "BS613B",
+      "name": "Ayudas individuales para personas con discapacidad"
+    },
+    {
+      "code": "BS611A",
+      "name": "Reconocimiento del grado de discapacidad"
+    }
+  ]
 }
