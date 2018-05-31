@@ -20,7 +20,7 @@ $(document).ready(function(){
   $('#simpatico_user span').click(function(){
     $.post(baseURL+'logout', {}, function(data){
       if (data.hasOwnProperty('logout') && data.logout.localeCompare('success') == 0){
-        window.location.href = baseURL+"/";
+        window.location.href = baseURL;
       }
     });
   });

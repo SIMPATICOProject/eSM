@@ -7,7 +7,7 @@ var properties = require('../properties');
 
 router.get('/', function(req, res, next) {
   //TODO: Default landing tab
-  res.redirect(properties.base_url+'stats/');
+  res.redirect(properties.getBase_URL()+'stats/');
 });
 
 router.get('/stats/:eservice?', function(req, res, next) {
@@ -16,37 +16,37 @@ router.get('/stats/:eservice?', function(req, res, next) {
   if(eservice){
     async.parallel([
       function(cb) {
-        requestIFE(eservice, "total_requests", function(err, result){
+        requestLogs(eservice, "total_requests", function(err, result){
           cb(err, result);
         });
       },
       function(cb) {
-        requestIFE(eservice, "ended_requests", function(err, result){
+        requestLogs(eservice, "ended_requests", function(err, result){
           cb(err, result);
         });
       },
       function(cb) {
-        requestIFE(eservice, "faces", function(err, result){
+        requestLogs(eservice, "faces", function(err, result){
           cb(err, result);
         });
       },
       function(cb) {
-        requestIFE(eservice, "logins", function(err, result){
+        requestLogs(eservice, "logins", function(err, result){
           cb(err, result);
         });
       },
       function(cb) {
-        requestIFE(eservice, "ctzp", function(err, result){
+        requestLogs(eservice, "ctzp", function(err, result){
           cb(err, result);
         });
       },
       function(cb) {
-        requestIFE(eservice, "simpl", function(err, result){
+        requestLogs(eservice, "simpl", function(err, result){
           cb(err, result);
         });
       },
       function(cb) {
-        requestIFE(eservice, "cdv", function(err, result){
+        requestLogs(eservice, "cdv", function(err, result){
           cb(err, result);
         });
       }
@@ -184,7 +184,17 @@ router.get('/:page/:eservice?', function(req, res, next) {
 router.post('/login', function(req, res, next) {
   console.log("Logging in!");
   req.session.hasSession = true;
-  res.redirect(properties.base_url+'stats');
+
+  var loginCreds = properties.getLoginUser();
+
+  if (loginCreds.username.localeCompare(req.body.username) == 0 && loginCreds.password.localeCompare(req.body.password) == 0) {
+
+    console.log("Success!!");
+    res.send({success: true});
+    // res.redirect(properties.getBase_URL()+'stats');
+  } else {
+    res.send({error: true});
+  }
 });
 
 router.post('/logout', function(req, res, next) {
@@ -201,9 +211,9 @@ function requestCTZP (eservice, paragraph, type, callback){
   if(type == "questions") apicall = "/stats/questions/"+eservice+(paragraph? "/"+paragraph : "");
   if(type == "answers" || type == "votes") apicall = "/qae/questions/"+eservice+(paragraph? "/"+paragraph : "");
 
-  console.log(properties.ctzp_url+apicall);
+  console.log(properties.getCTZP_URL()+apicall);
 
-  request(properties.ctzp_url+apicall, function(error, response, body) {
+  request(properties.getCTZP_URL()+apicall, function(error, response, body) {
     console.log(error);
     if(error) return callback(error);
 
@@ -226,7 +236,7 @@ function requestCTZP (eservice, paragraph, type, callback){
 };
 
 
-function requestIFE (eservice, type, callback){
+function requestLogs (eservice, type, callback){
   var apicall = "";
   if(type == "total_requests") apicall = "/ife/find?common="+eservice+"&search=form_start";
   if(type == "ended_requests") apicall = "/ife/find?common="+eservice+"&search=form_end";
@@ -236,13 +246,12 @@ function requestIFE (eservice, type, callback){
   if(type == "simpl") apicall = "/logs/find?common="+eservice+"&search=simplification_start";
   if(type == "cdv") apicall = "/logs/find?common="+eservice+"&search=usedata";
 
-  console.log(properties.ife_url+apicall);
+  console.log(properties.getLogs_URL()+apicall);
 
-  request(properties.ife_url+apicall, function(error, response, body) {
+  request(properties.getLogs_URL()+apicall, function(error, response, body) {
     if(error) return callback(error);
 
-    console.log("Success!! "+properties.ife_url+apicall);
-    console.log(typeof body);
+    console.log("Success!! "+properties.getLogs_URL()+apicall);
 
     var objBody = null;
     if(typeof body === "string"){

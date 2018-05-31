@@ -18,5 +18,12 @@ form {
     width: 100%;
     padding: 5px 10px;
     font-size: 20px; }
+    form input[type="button"] {
+      line-height: 40px; }
+
+#error {
+  display: none;
+  color: #ee4d3d;
+  margin-bottom: 20px; }
 
 /*# sourceMappingURL=login.css.map */

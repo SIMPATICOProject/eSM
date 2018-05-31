@@ -114,4 +114,19 @@ block content
           //-   span.line_header= t('stats.useful')
           //-   meter(min="0" max="100")
           //-   span.line_percentage
-        
+      .progress_category
+        img(src="img/feedback.png")
+        .progress_data
+          .progress_title= t('stats.feedback')
+          .progress_line
+            span.line_header= t('stats.use')
+            meter(min="0" max="100" value=use_feedback)
+            span.line_percentage= (use_feedback || 0) + "%"
+          .progress_line
+            span.line_header= t('stats.useful')
+            meter(min="0" max="100" value=useful_feedback)
+            span.line_percentage= (useful_feedback || 0) + "%"
+          .progress_line
+            span.line_header= t('stats.simpl_relevant')
+            meter(min="0" max="100" value=relevant_feedback)
+            span.line_percentage= (relevant_feedback || 0) + "%"
