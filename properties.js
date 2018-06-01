@@ -1,4 +1,5 @@
 var fs = require('fs');
+var path = require('path');
 
 var default_base = "/";
 var default_CTZP = "https://simpatico.hi-iberia.es:4569/qae/api";
@@ -10,7 +11,7 @@ var default_login = {
 
 function getProperties (prop) {
   try {
-    var properties = JSON.parse(fs.readFileSync('./properties.json', 'utf-8'));
+    var properties = JSON.parse(fs.readFileSync(path.join(__dirname, 'properties.json'), 'utf-8'));
     return properties[prop] || null;
   } catch(e) {
     console.log(e);
