@@ -242,12 +242,24 @@ router.get('/qandas/:eservice?', function(req, res, next) {
         }
 
 
+
+        //WORD CLOUD
+        var cloud = wf.freq("word word word word cloud cloud cloud not not available", false, false);
+        //TODO: Results[7] should be the whole text to word-cloud
+        // var cloud = wf.freq(results[7], true, false);
+
+        var topWords = Object.keys(cloud).sort(function(a, b){
+          return cloud[b] - cloud[a];
+        });
+
+
         var locals = {
           total_questions: results.length > 1? results[0] : 0,
           total_answers: totalA,
           total_votes: totalV,
           paragraphs: paragraphs,
-          json: results.length > 1? JSON.stringify(results[1]) : []
+          json: results.length > 1? JSON.stringify(results[1]) : [],
+          word_cloud: JSON.stringify(topWords)
         };
 
         // console.log(locals);

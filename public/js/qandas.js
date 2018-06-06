@@ -13,20 +13,18 @@ $(document).ready(function(){
   });
 
 
-  //TODO: Analyse text to get most common words and "weigh" them
+  var list = [];
+  var fontSizes = [24, 20, 20, 20, 18, 18, 18, 16, 16, 16, 16, 16, 14, 14, 14, 14, 14];
+  for(var i=0; i<fontSizes.length; i++){
+    if (cloud[i]) {
+      list.push([cloud[i], fontSizes[i]]);
+    }
+  }
+
   WordCloud(
     document.getElementById('cloud_canvas'),
     {
-      list: [
-        ['entiendo', 20],
-        ['difícil', 16],
-        ['palabra', 14],
-        ['no', 14],
-        ['balneario', 14],
-        ['simple', 14],
-        ['esto', 14],
-        ['texto', 12]
-      ]
+      list: list
     }
   );
 
