@@ -18,9 +18,8 @@ block content
     .service_selector
       select(name="service")#service_select
         option(value="")= t('actions.choose_service')
-        option(value="BS607A") Programa Benestar en Balnearios
-        option(value="BS613B") Ayudas individuales para personas con discapacidad
-        option(value="BS611A") Reconocimiento del grado de discapacidad
+        each eservice in eservices
+          option(value=eservice.code)= eservice.name
     #service_paragraphs
       each pg in (paragraphs || [])
         .service_paragraph
