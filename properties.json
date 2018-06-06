@@ -1,6 +1,6 @@
 {
   "base_url": "/",
-  "citizenpedia_url": "https://simpatico.hi-iberia.es:4569/qae/api",
+  "citizenpedia_url": "http://192.168.26.71:9000/api",
   "logs_url": "https://simpatico.hi-iberia.es:4570/simpatico/api",
   "eservices": [
     {
@@ -17,7 +17,7 @@
     }
   ],
   "login": {
-    "username": "simpatico",
-    "password": "project"
+    "username": "",
+    "password": ""
   }
 }
