@@ -156,6 +156,11 @@ router.get('/stats/:eservice?', function(req, res, next) {
         useful_ctzp: "N/A",
         useful_simpl: "N/A",
         relevant_simpl: "N/A",
+
+        use_feedback: "N/A",
+        useful_feedback: "N/A",
+        relevant_feedback: "N/A",
+
         word_cloud: JSON.stringify(topWords)
       };
 
