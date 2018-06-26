@@ -4,7 +4,7 @@ var express = require('express');
 var wf = require('word-freq');
 var router = express.Router();
 
-var old_properties = require('../properties_old');
+// var old_properties = require('../properties_old');
 var properties = require('../properties');
 
 
@@ -14,7 +14,7 @@ var NOTAVAILABLE = "N/A";
 
 router.get('/', function(req, res, next) {
   //TODO: Default landing tab
-  res.redirect(old_properties.getURL('base')+'stats/');
+  res.redirect(properties.getURL('base')+'stats/');
 });
 
 
@@ -381,69 +381,69 @@ module.exports = router;
 
 
 
-function requestCTZP (eservice, paragraph, type, callback){
-  var apicall = "";
-  if(type == "questions") apicall = "/stats/questions/"+eservice+(paragraph? "/"+paragraph : "");
-  if(type == "answers" || type == "votes") apicall = "/qae/questions/"+eservice+(paragraph? "/"+paragraph : "");
+// function requestCTZP (eservice, paragraph, type, callback){
+//   var apicall = "";
+//   if(type == "questions") apicall = "/stats/questions/"+eservice+(paragraph? "/"+paragraph : "");
+//   if(type == "answers" || type == "votes") apicall = "/qae/questions/"+eservice+(paragraph? "/"+paragraph : "");
+//
+//   console.log("Request to: " + old_properties.getCTZP_URL()+apicall);
+//
+//   request(old_properties.getCTZP_URL()+apicall, function(error, response, body) {
+//
+//     if(error) {
+//       console.error("Error on: " + old_properties.getCTZP_URL()+apicall);
+//       console.error(error);
+//       return callback(error);
+//     } else {
+//       if(typeof body === "string"){
+//         try {
+//           var objBody = JSON.parse(body);
+//           return callback(null, objBody, old_properties.getCTZP_URL()+apicall);
+//         }catch(e){
+//           return callback(null, body, old_properties.getCTZP_URL()+apicall);
+//         }
+//       }else{
+//         return callback(null, body, old_properties.getCTZP_URL()+apicall);
+//       }
+//     }
+//
+//   });
+// };
 
-  console.log("Request to: " + old_properties.getCTZP_URL()+apicall);
 
-  request(old_properties.getCTZP_URL()+apicall, function(error, response, body) {
-
-    if(error) {
-      console.error("Error on: " + old_properties.getCTZP_URL()+apicall);
-      console.error(error);
-      return callback(error);
-    } else {
-      if(typeof body === "string"){
-        try {
-          var objBody = JSON.parse(body);
-          return callback(null, objBody, old_properties.getCTZP_URL()+apicall);
-        }catch(e){
-          return callback(null, body, old_properties.getCTZP_URL()+apicall);
-        }
-      }else{
-        return callback(null, body, old_properties.getCTZP_URL()+apicall);
-      }
-    }
-
-  });
-};
-
-
-function requestLogs (eservice, type, callback){
-  var apicall = "";
-  if(type == "total_requests") apicall = "/ife/find?common="+eservice+"&search=form_start";
-  if(type == "ended_requests") apicall = "/ife/find?common="+eservice+"&search=form_end";
-  if(type == "faces") apicall = "/logs/find?common="+eservice+"&search=sad,normal,happy";
-  if(type == "logins") apicall = "/ife/find?common="+eservice+"&search=session_start";
-  if(type == "ctzp") apicall = "/logs/find?common="+eservice+"&search=citizenpedia_start";
-  if(type == "simpl") apicall = "/logs/find?common="+eservice+"&search=simplification_start";
-  if(type == "cdv") apicall = "/logs/find?common="+eservice+"&search=usedata";
-
-  console.log("Request to: " + old_properties.getLogs_URL()+apicall);
-
-  request(old_properties.getLogs_URL()+apicall, function(error, response, body) {
-    if (error) {
-      console.log("Error on: " + old_properties.getLogs_URL()+apicall);
-      console.log(error);
-      return callback(error);
-    }
-
-    var objBody = null;
-    if(typeof body === "string"){
-      try {
-        objBody = JSON.parse(body);
-      }catch(e){
-        console.log(e);
-      }finally{
-        return callback(null, objBody || body, old_properties.getLogs_URL()+apicall);
-      }
-    }else{
-      return callback(null, body, old_properties.getLogs_URL()+apicall);
-    }
-  });
-};
+// function requestLogs (eservice, type, callback){
+//   var apicall = "";
+//   if(type == "total_requests") apicall = "/ife/find?common="+eservice+"&search=form_start";
+//   if(type == "ended_requests") apicall = "/ife/find?common="+eservice+"&search=form_end";
+//   if(type == "faces") apicall = "/logs/find?common="+eservice+"&search=sad,normal,happy";
+//   if(type == "logins") apicall = "/ife/find?common="+eservice+"&search=session_start";
+//   if(type == "ctzp") apicall = "/logs/find?common="+eservice+"&search=citizenpedia_start";
+//   if(type == "simpl") apicall = "/logs/find?common="+eservice+"&search=simplification_start";
+//   if(type == "cdv") apicall = "/logs/find?common="+eservice+"&search=usedata";
+//
+//   console.log("Request to: " + old_properties.getLogs_URL()+apicall);
+//
+//   request(old_properties.getLogs_URL()+apicall, function(error, response, body) {
+//     if (error) {
+//       console.log("Error on: " + old_properties.getLogs_URL()+apicall);
+//       console.log(error);
+//       return callback(error);
+//     }
+//
+//     var objBody = null;
+//     if(typeof body === "string"){
+//       try {
+//         objBody = JSON.parse(body);
+//       }catch(e){
+//         console.log(e);
+//       }finally{
+//         return callback(null, objBody || body, old_properties.getLogs_URL()+apicall);
+//       }
+//     }else{
+//       return callback(null, body, old_properties.getLogs_URL()+apicall);
+//     }
+//   });
+// };
 
 
 
