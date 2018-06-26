@@ -13,6 +13,13 @@ $(document).ready(function(){
     window.location.href=baseURL+"stats/"+$(this).val();
   });
 
+
+
+console.log(emotions);
+if (emotions.show && emotions.value) {
+  console.log("Load pie chart");
+}
+
   var ctx = document.getElementById("satisfaction_pie");
   var pieChart = new Chart(ctx, {
     type: 'pie',
@@ -20,7 +27,7 @@ $(document).ready(function(){
       labels: ["Happy", "Normal", "Sad"],
       datasets: [{
         backgroundColor: ["#399e4c", "#1ebbd9","#de443e"],
-        data: [faces.happy, faces.normal, faces.sad]
+        data: [emotions.value[0], emotions.value[1], emotions.value[2]]
       }]
     },
     options: {
@@ -49,12 +56,12 @@ $(document).ready(function(){
 
   var list = [];
   for(var i=0; i<fontSizes.length; i++){
-    if (cloud[i]) {
-      list.push([cloud[i], fontSizes[i]]);
+    if (comments.value[i]) {
+      list.push([comments.value[i], fontSizes[i]]);
     }
   }
 
-
+  console.log(list);
   WordCloud(
     document.getElementById('cloud_canvas'),
     {
@@ -62,5 +69,12 @@ $(document).ready(function(){
     }
   );
 
+
+  $('body').keyup(function(){
+    console.log(json);
+    json[5].results.forEach(function(res){
+      console.log(res.data.component);
+    });
+  });
 
 });

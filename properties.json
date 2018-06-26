@@ -1,7 +1,27 @@
 {
-  "base_url": "/",
-  "citizenpedia_url": "http://192.168.26.71:9000/api",
-  "logs_url": "https://simpatico.hi-iberia.es:4570/simpatico/api",
+  "urls": {
+    "base": "/",
+    "total_requests": "https://simpatico.hi-iberia.es:4570/simpatico/api/esm/totalrequests?eserviceId=::eservice",
+    "finished_requests": "https://simpatico.hi-iberia.es:4570/simpatico/api/esm/finishedrequests?eserviceId=::eservice",
+    "average_time": "https://simpatico.hi-iberia.es:4570/simpatico/api/esm/averagetime?eserviceId=::eservice",
+    "average_age": false,
+    "emotions": "https://simpatico.hi-iberia.es:4570/simpatico/api/esm/satisfaction?eserviceId=::eservice",
+    "sat_comment": "https://simpatico.hi-iberia.es:4570/simpatico/api/esm/words?eserviceId=::eservice",
+    "ctzp_use": "https://simpatico.hi-iberia.es:4570/simpatico/api/esm/ctzuse?eserviceId=::eservice",
+    "ctzp_useful": "https://simpatico.hi-iberia.es:4570/simpatico/api/esm/ctzuseful?eserviceId=::eservice",
+    "ctzp_relevant": false,
+    "tae_use": "https://simpatico.hi-iberia.es:4570/simpatico/api/esm/taeuse?eserviceId=::eservice",
+    "tae_useful": "https://simpatico.hi-iberia.es:4570/simpatico/api/esm/taeuseful?eserviceId=::eservice",
+    "tae_relevant": false,
+    "cdv_use": "https://simpatico.hi-iberia.es:4570/simpatico/api/esm/cdvuse?eserviceId=::eservice",
+    "cdv_useful": "https://simpatico.hi-iberia.es:4570/simpatico/api/esm/cdvuseful?eserviceId=::eservice",
+    "cdv_relevant": false,
+    "wae_use": "https://simpatico.hi-iberia.es:4570/simpatico/api/esm/waeuse?eserviceId=::eservice",
+    "wae_useful": "https://simpatico.hi-iberia.es:4570/simpatico/api/esm/waeuseful?eserviceId=::eservice",
+    "wae_relevant": false,
+    "questions_stats": "http://192.168.26.71:9000/api/stats/questions/::eservice",
+    "questions_qae": "http://192.168.26.71:9000/api/qae/questions/::eservice"
+  },
   "eservices": [
     {
       "code": "BS607A",
@@ -17,7 +37,7 @@
     }
   ],
   "login": {
-    "username": "",
-    "password": ""
+    "username": "simpatico",
+    "password": "project"
   }
 }

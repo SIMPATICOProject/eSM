@@ -1,3 +1,7 @@
+
+
+
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -62,7 +66,7 @@ app.use(middleware.handle(i18next, {
 
 app.use(function(req, res, next) {
 
-  res.locals.baseURL = properties.getBase_URL();
+  res.locals.baseURL = properties.getURL('base');
   res.locals.eservices = properties.getEservices();
 
   // next();

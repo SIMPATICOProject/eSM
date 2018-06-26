@@ -24,7 +24,9 @@
     "cdv": "Datos - CDV",
     "feedback": "Guía",
     "dates_graph": "Fechas",
-    "times_graph": "Horas"
+    "times_graph": "Horas",
+    "emotions_empty": "Gráfica no disponible",
+    "wordcloud_empty": "Nube de tags no disponible"
   },
   "qandas": {
     "total_questions": "Total preguntas",
@@ -34,5 +36,9 @@
     "question_stats": "Estadísticas preguntas",
     "most_seen_topics": "Temas más vistos",
     "paragraph": "Párrafo"
+  },
+  "login": {
+    "error": "ERROR: Usuario o contraseña inválida",
+    "logout": "Desconexión"
   }
 }

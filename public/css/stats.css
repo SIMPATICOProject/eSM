@@ -77,6 +77,25 @@
       #legend .legend_pie .legend_square.sad_legend {
         background-color: #de443e; }
 
+#emptychart {
+  display: flex;
+  align-items: center;
+  height: 180px;
+  width: 270px;
+  font-size: 20px;
+  color: #a8aaab;
+  text-align: center; }
+
+#emptycloud {
+  display: flex;
+  align-items: center;
+  height: 180px;
+  width: 270px;
+  font-size: 20px;
+  color: #a8aaab;
+  text-align: center;
+  padding-left: 30px; }
+
 #info_progress {
   display: flex;
   flex-direction: column; }

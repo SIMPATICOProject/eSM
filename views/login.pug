@@ -9,7 +9,7 @@ html
     div
       img(src="img/logo_simpatico.png")
       h3 Dashboard Login
-      #error ERROR: Invalid username or password
+      #error= t('login.error')
       form(action="login" method="post")
         input(type="input" name="username" placeholder="Username" required)
         input(type="password" name="password" placeholder="Password" required)

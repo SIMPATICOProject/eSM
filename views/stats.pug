@@ -9,125 +9,128 @@ block styles
 block scripts
   script(src="js/vendor/Chart.bundle.min.js")
   script(src="js/vendor/wordcloud2.js")
-  script(src="js/stats.js")
   script.
     var json = new Object(!{json});
-    var faces = new Object(!{faces});
-    var cloud = new Object(!{word_cloud});
+    var emotions = new Object(!{emotions_str});
+    var comments = new Object(!{comments_str});
   
+  script(src="js/stats.js")
 
 block content
-  .left_content
-    .service_selector
-      .select
-        select(name="service")#service_select
-          option(value="")= t('actions.choose_service')
-          each eservice in eservices
-            option(value=eservice.code)= eservice.name
-      span= t('actions.filter')
-    #service_information
-      div#total_requests
-        span= t('stats.total_requests')
-        span.separator :
-        span.result= total_requests
-      div#finished_requests
-        span= t('stats.finished_requests')
-        span.separator :
-        span.result= ended_requests
-      div#mean_time
-        span= t('stats.mean_time')
-        span.separator :
-        span.result= mean_time
-      div#average_age
-        span= t('stats.average_age')
-        span.separator :
-        span.result= average_age
-    #service_graphs
-      button#date_graph
-        i.fa.fa-line-chart
-        = t('stats.dates_graph')
-      button#hour_graph
-        i.fa.fa-line-chart
-        = t('stats.times_graph')
-    #service_map
+  if !eservice
+    .service-selector
+      select(name="service")#service_select
+        option(value="")= t('actions.choose_service')
+        each eservice in eservices
+          option(value=eservice.code)= eservice.name
+  else
+  
+  
+    .left_content
+      .service_selector
+        .select
+          select(name="service")#service_select
+            option(value="")= t('actions.choose_service')
+            each eservice in eservices
+              option(value=eservice.code)= eservice.name
+        //- span= t('actions.filter')
+      #service_information
+        +statsLine(t('stats.total_requests'), total_requests)#total_requests
+        +statsLine(t('stats.finished_requests'), finished_requests)#finished_requests
+        +statsLine(t('stats.mean_time'), average_time)#mean_time
+        +statsLine(t('stats.average_age'), average_age)#average_age
+      //- #service_graphs
+      //-   button#date_graph
+      //-     i.fa.fa-line-chart
+      //-     = t('stats.dates_graph')
+      //-   button#hour_graph
+      //-     i.fa.fa-line-chart
+      //-     = t('stats.times_graph')
+      //- #service_map
+        
       
-    
-      
+        
 
-  .right_content
-    h2= t('stats.satisfaction')
-    #info_graphic
-      #info_graphic_chart
-        #chart
-          canvas#satisfaction_pie(width="300" height="300")
-        #legend
-          .legend_pie
-            .legend_square.happy_legend
-            i.fa.fa-smile-o  
-          .legend_pie
-            .legend_square.meh_legend
-            i.fa.fa-meh-o  
-          .legend_pie
-            .legend_square.sad_legend
-            i.fa.fa-frown-o  
-      #cloud
-        canvas#cloud_canvas
-      //- TODO: Chart
-      //- TODO: TagCloud
-    #info_progress
-      .progress_category
-        img(src="img/citizenpedia.png")
-        .progress_data
-          .progress_title= t('stats.questions')
-          .progress_line
-            span.line_header= t('stats.use')
-            meter(min="0" max="100" value=use_ctzp)
-            span.line_percentage= (use_ctzp || 0) + "%"
-          .progress_line
-            span.line_header= t('stats.useful')
-            meter(min="0" max="100" value=useful_ctzp)
-            span.line_percentage= (useful_ctzp || 0) + "%"
-      .progress_category
-        img(src="img/simplify.png")
-        .progress_data
-          .progress_title= t('stats.simplify')
-          .progress_line
-            span.line_header= t('stats.use')
-            meter(min="0" max="100" value=use_simpl)
-            span.line_percentage= (use_simpl || 0) + "%"
-          .progress_line
-            span.line_header= t('stats.useful')
-            meter(min="0" max="100" value=useful_simpl)
-            span.line_percentage= (useful_simpl || 0) + "%"
-          .progress_line
-            span.line_header= t('stats.simpl_relevant')
-            meter(min="0" max="100" value=relevant_simpl)
-            span.line_percentage= (relevant_simpl || 0) + "%"
-      .progress_category
-        img(src="img/cdv.png")
-        .progress_data
-          .progress_title= t('stats.cdv')
-          .progress_line
-            span.line_header= t('stats.use')
-            meter(min="0" max="100" value=use_cdv)
-            span.line_percentage= (use_cdv || 0) + "%"
-          //- .progress_line
-          //-   span.line_header= t('stats.useful')
-          //-   meter(min="0" max="100")
-          //-   span.line_percentage
-      .progress_category
-        img(src="img/feedback.png")
-        .progress_data
-          .progress_title= t('stats.feedback')
-          .progress_line
-            span.line_header= t('stats.use')
-            meter(min="0" max="100" value=use_feedback)
-            span.line_percentage= (use_feedback || 0) + "%"
-          .progress_line
-            span.line_header= t('stats.useful')
-            meter(min="0" max="100" value=useful_feedback)
-            span.line_percentage= (useful_feedback || 0) + "%"
-          .progress_line
-            span.line_header= t('stats.simpl_relevant')
-            meter(min="0" max="100" value=relevant_feedback)
-            span.line_percentage= (relevant_feedback || 0) + "%"
+    .right_content
+      h2= t('stats.satisfaction')
+      if emotions.show || comments.show
+        #info_graphic
+          #info_graphic_chart
+            if emotions.show
+              #chart
+                canvas#satisfaction_pie(width="300" height="300")
+              #legend
+                .legend_pie
+                  .legend_square.happy_legend
+                  i.fa.fa-smile-o  
+                .legend_pie
+                  .legend_square.meh_legend
+                  i.fa.fa-meh-o  
+                .legend_pie
+                  .legend_square.sad_legend
+                  i.fa.fa-frown-o  
+            unless emotions.show
+              #emptychart= t('stats.emotions_empty')
+          #cloud
+            if comments.show && !comments.string
+              canvas#cloud_canvas
+            unless comments.show && !comments.string
+              #emptycloud= t('stats.wordcloud_empty')
+      #info_progress
+        if ctzp_use.show || ctzp_useful.show || ctzp_relevant.show
+          .progress_category
+            img(src="img/ctzp.png")
+            .progress_data
+              .progress_title= t('stats.questions')
+              +progressLine(t('stats.use'), ctzp_use)
+              +progressLine(t('stats.useful'), ctzp_useful)
+              +progressLine(t('stats.simpl_relevant'), ctzp_relevant)
+        if tae_use.show || tae_useful.show || tae_relevant.show
+          .progress_category
+            img(src="img/tae.png")
+            .progress_data
+              .progress_title= t('stats.simplify')
+              +progressLine(t('stats.use'), tae_use)
+              +progressLine(t('stats.useful'), tae_useful)
+              +progressLine(t('stats.simpl_relevant'), tae_relevant)
+        if cdv_use.show || cdv_useful.show || cdv_relevant.show
+          .progress_category
+            img(src="img/cdv.png")
+            .progress_data
+              .progress_title= t('stats.cdv')
+              +progressLine(t('stats.use'), cdv_use)
+              +progressLine(t('stats.useful'), cdv_useful)
+              +progressLine(t('stats.simpl_relevant'), cdv_relevant)
+        if tae_use.show || tae_useful.show || tae_relevant.show
+          .progress_category
+            img(src="img/wae.png")
+            .progress_data
+              .progress_title= t('stats.feedback')
+              +progressLine(t('stats.use'), wae_use)
+              +progressLine(t('stats.useful'), wae_useful)
+              +progressLine(t('stats.simpl_relevant'), wae_relevant)
+            
+
+    
+mixin statsLine(header, obj)
+  if obj.show
+    div(id!=attributes.id)
+      span= header
+      span.separator :
+      if obj.error
+        span.result
+          i.fa.fa-warning(title=obj.error)
+      unless obj.error
+        span.result= obj.value || obj.string
+
+  
+mixin progressLine(header, obj)
+  if obj.show
+    .progress_line
+      span.line_header= header
+      meter(min="0" max="100" value=obj.value)
+      if obj.error
+        span.line_percentage
+          i.fa.fa-warning(title=obj.error)
+      unless obj.error
+        span.line_percentage= obj.value? obj.value + "%" : obj.string

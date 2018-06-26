@@ -4,164 +4,210 @@ var express = require('express');
 var wf = require('word-freq');
 var router = express.Router();
 
+var old_properties = require('../properties_old');
 var properties = require('../properties');
+
+
+var NOTAVAILABLE = "N/A";
+
+
 
 router.get('/', function(req, res, next) {
   //TODO: Default landing tab
-  res.redirect(properties.getBase_URL()+'stats/');
+  res.redirect(old_properties.getURL('base')+'stats/');
 });
+
+
+function makeRequest (key, eservice, expected, callback) {
+
+  var url = properties.getURL(key, eservice);
+
+
+  var result = {
+    show: true
+  };
+
+  if (typeof url === "string" && url.length > 0) {
+    request(url, function(error, response, body) {
+      if (error) {
+        console.error("Error on: " + url);
+        console.log(error);
+        result.error = error;
+      } else {
+        console.log("["+key+"]: "+url);
+        console.log("["+key+"]: "+body);
+        //Possible values: Number or Array
+        if (!isNaN(body)) {
+          if (expected == "number") {
+            result.value = ""+body;
+          } else {
+            result.error = "ERROR: ["+key+"] " + expected + " expected. Received: " + body;
+          }
+        } else if (body.indexOf('[') == 0 && body.indexOf(']') == body.length-1) {
+
+          if (expected == "array") {
+            try {
+              result.value = JSON.parse(body);
+            } catch(e) {
+              console.log(e);
+              result.error = e;
+            }
+          } else {
+            result.error = "ERROR: ["+key+"] " + expected + " expected. Received: " + body;
+          }
+        } else {
+          if (expected == "string") {
+            result.value = body;
+          } else {
+            result.error = "ERROR: ["+key+"] " + expected + " expected. Received: " + body;
+          }
+        }
+
+        // console.log(body);
+        // try {
+        //   body = JSON.parse(body);
+        // } catch (e) {}
+        // if (typeof body === "object") {
+        //   result.value = body.count;
+        // } else {
+        //   result.value = ""+body;
+        // }
+      }
+      callback(result);
+    });
+
+  } else if (typeof url === "string" || typeof url === true ) {
+    result.string = NOTAVAILABLE;
+    callback(result);
+  } else {
+    result.show = false;
+    console.log("["+key+"] Not found or set to false.");
+    callback(result);
+  }
+};
+
+
 
 router.get('/stats/:eservice?', function(req, res, next) {
 
   var eservice = req.params.eservice;
-  if(eservice){
+  if (eservice) {
     async.parallel([
-      function(cb) {
-        requestLogs(eservice, "total_requests", function(err, result, call){
 
-          if (err) return cb(err);
-          if (!result || (result && !result.hasOwnProperty('count'))) {
-            return cb(errorLog(call, "<object> {count: <number>, results: <array>}", result));
+      // Total Requests
+      function (cb) {
+        makeRequest ("total_requests", eservice, "number", function(result){ cb(null, result); });
+      },
+      // Finished Requests
+      function (cb) {
+        makeRequest ("finished_requests", eservice, "number", function(result){ cb(null, result); });
+      },
+      // Average Time
+      function (cb) {
+        makeRequest ("average_time", eservice, "number", function(result){ cb(null, result); });
+      },
+      // Average Age
+      function (cb) {
+        makeRequest ("average_age", eservice, "number", function(result){ cb(null, result); });
+      },
+      // Emotions
+      function (cb) {
+        makeRequest ("emotions", eservice, "array", function(result){ cb(null, result); });
+      },
+      // Satisfaction comments
+      function (cb) {
+        makeRequest ("sat_comment", eservice, "string", function(result){
+
+          //TODO: Cleanup words in Spanish (ie. remove accents and commonly used words)
+          if (result.value && result.value.length > 0) {
+            var cloud = wf.freq(result.value, false, false);
+
+            var topWords = Object.keys(cloud).sort(function(a, b){
+              return cloud[b] - cloud[a];
+            });
+            result.value = topWords;
+          } else {
+            result.value = [];
           }
-          cb(err, result);
+          cb(null, result);
         });
       },
-      function(cb) {
-        requestLogs(eservice, "ended_requests", function(err, result, call){
-          if (err) return cb(err);
-          if (!result || (result && !result.hasOwnProperty('count'))) {
-            return cb(errorLog(call, "<object> {count: <number>, results: <array>}", result));
-          }
-          cb(err, result);
-        });
+      // Citizenpedia Use
+      function (cb) {
+        makeRequest ("ctzp_use", eservice, "number", function(result){ cb(null, result); });
       },
-      function(cb) {
-        requestLogs(eservice, "faces", function(err, result, call){
-          if (err) return cb(err);
-          if (!result || (result && !result.hasOwnProperty('count'))) {
-            return cb(errorLog(call, "<object> {count: <number>, results: <array>}", result));
-          }
-          cb(err, result);
-        });
+      // Citizenpedia Useful
+      function (cb) {
+        makeRequest ("ctzp_useful", eservice, "number", function(result){ cb(null, result); });
       },
-      function(cb) {
-        requestLogs(eservice, "logins", function(err, result, call){
-          if (err) return cb(err);
-          if (!result || (result && !result.hasOwnProperty('count'))) {
-            return cb(errorLog(call, "<object> {count: <number>, results: <array>}", result));
-          }
-          cb(err, result);
-        });
+      // Citizenpedia Relevant
+      function (cb) {
+        makeRequest ("ctzp_relevant", eservice, "number", function(result){ cb(null, result); });
       },
-      function(cb) {
-        requestLogs(eservice, "ctzp", function(err, result, call){
-          if (err) return cb(err);
-          if (!result || (result && !result.hasOwnProperty('count'))) {
-            return cb(errorLog(call, "<object> {count: <number>, results: <array>}", result));
-          }
-          cb(err, result);
-        });
+      // TAE Use
+      function (cb) {
+        makeRequest ("tae_use", eservice, "number", function(result){ cb(null, result); });
       },
-      function(cb) {
-        requestLogs(eservice, "simpl", function(err, result, call){
-          if (err) return cb(err);
-          if (!result || (result && !result.hasOwnProperty('count'))) {
-            return cb(errorLog(call, "<object> {count: <number>, results: <array>}", result));
-          }
-          cb(err, result);
-        });
+      // TAE Useful
+      function (cb) {
+        makeRequest ("tae_useful", eservice, "number", function(result){ cb(null, result); });
       },
-      function(cb) {
-        requestLogs(eservice, "cdv", function(err, result, call){
-          if (err) return cb(err);
-          if (!result || (result && !result.hasOwnProperty('count'))) {
-            return cb(errorLog(call, "<object> {count: <number>, results: <array>}", result));
-          }
-          cb(err, result);
-        });
+      // TAE Relevant
+      function (cb) {
+        makeRequest ("tae_relevant", eservice, "number", function(result){ cb(null, result); });
+      },
+      // CDV Use
+      function (cb) {
+        makeRequest ("cdv_use", eservice, "number", function(result){ cb(null, result); });
+      },
+      // CDV Useful
+      function (cb) {
+        makeRequest ("cdv_useful", eservice, "number", function(result){ cb(null, result); });
+      },
+      // CDV Relevant
+      function (cb) {
+        makeRequest ("cdv_relevant", eservice, "number", function(result){ cb(null, result); });
+      },
+      // WAE Use
+      function (cb) {
+        makeRequest ("wae_use", eservice, "number", function(result){ cb(null, result); });
+      },
+      // WAE Useful
+      function (cb) {
+        makeRequest ("wae_useful", eservice, "number", function(result){ cb(null, result); });
+      },
+      // WAE Relevant
+      function (cb) {
+        makeRequest ("wae_relevant", eservice, "number", function(result){ cb(null, result); });
       }
     ], function(err, results){
-      //TODO: Process result
-
-      // console.log("**************************");
-      // results.forEach(function(r){
-      //   console.log(r.count);
-      // });
-      // // console.log(results);
-      // console.log("**************************");
-
-
-      if (err) {
-        console.log(err);
-        next(err);
-        return;
-      }
-
-
-
-
-      var faces = {
-        total: 0,
-        sad: 0,
-        normal: 0,
-        happy: 0
-      };
-      if (results[2]) {
-        results[2].results.forEach(function(obj){
-          if (faces.hasOwnProperty(obj.data["faces-session-feedback"])) {
-            faces[obj.data["faces-session-feedback"]]++;
-          } else {
-            faces[obj.data["faces-session-feedback"]] = 1;
-          }
-          faces.total++;
-        });
-      }
-
-
-      var total_sessions = results[3]? results[3].count : 0;
-      var use_ctzp = results[4]? results[4].count : 0;
-      var use_simpl = results[5]? results[5].count : 0;
-      var use_cdv = results[6]? results[6].count : 0;
-
-
-
-      //WORD CLOUD
-      var cloud = wf.freq("word word word word cloud cloud cloud not not available", false, false);
-      //TODO: Results[7] should be the whole text to word-cloud
-      // var cloud = wf.freq(results[7], true, false);
-
-      var topWords = Object.keys(cloud).sort(function(a, b){
-        return cloud[b] - cloud[a];
-      });
-
-
-
       var locals = {
-        total_requests: results[0]? results[0].count : 0,
-        ended_requests: results[0]? results[1].count : 0,
-        faces: JSON.stringify(faces),
-        use_ctzp: Math.floor((use_ctzp/(total_sessions==0? 1 : total_sessions))*100),
-        use_simpl: Math.floor((use_simpl/(total_sessions==0? 1 : total_sessions))*100),
-        use_cdv: Math.floor((use_cdv/(total_sessions==0? 1 : total_sessions))*100),
-        json: JSON.stringify(results[4]),
+        eservice: eservice,
 
-        //TEMP
-        // mean_time: 40,
-        // average_age: 35.8,
-        // useful_ctzp: 30,
-        // useful_simpl: 23,
-        // relevant_simpl: 70
-        mean_time: "N/A",
-        average_age: "N/A",
-        useful_ctzp: "N/A",
-        useful_simpl: "N/A",
-        relevant_simpl: "N/A",
+        total_requests: results[0],
+        finished_requests: results[1],
+        average_time: results[2],
+        average_age: results[3],
 
-        use_feedback: "N/A",
-        useful_feedback: "N/A",
-        relevant_feedback: "N/A",
+        emotions_str: JSON.stringify(results[4]),
+        emotions: results[4],
+        comments_str: JSON.stringify(results[5]),
+        comments: results[5],
 
-        word_cloud: JSON.stringify(topWords)
+        ctzp_use: results[6],
+        ctzp_useful: results[7],
+        ctzp_relevant: results[8],
+        tae_use: results[9],
+        tae_useful: results[10],
+        tae_relevant: results[11],
+        cdv_use: results[12],
+        cdv_useful: results[13],
+        cdv_relevant: results[14],
+        wae_use: results[15],
+        wae_useful: results[16],
+        wae_relevant: results[17],
+
+        json: JSON.stringify(results)
       };
 
       res.render('stats', locals, function(err, html){
@@ -169,12 +215,13 @@ router.get('/stats/:eservice?', function(req, res, next) {
         else res.send(html);
       });
     });
-  }else{
+  } else {
     res.render('stats', function(err, html){
       if(err) next(err);
       else res.send(html);
     });
   }
+
 });
 
 
@@ -183,35 +230,20 @@ router.get('/qandas/:eservice?', function(req, res, next) {
   var eservice = req.params.eservice;
   if(eservice){
     async.parallel([
-      function(cb) {
-        requestCTZP(eservice, null, 'questions', function(err, result, call){
 
-          if (err) return cb(err);
-          if (isNaN(result)) {
-            return cb(errorLog(call, "<number>", result));
-          }
-
-          cb(err, Number(result));
-        });
+      // Number of questions total
+      function (cb) {
+        makeRequest ("questions_stats", eservice, "number", function(result){ cb(null, result); });
       },
-      function(cb) {
-        requestCTZP(eservice, null, 'answers', function(err, result, call){
-          // console.log("Answers request");
-          // console.log(result);
-          // console.log("-----------------");
-
-
-          if (!Array.isArray(result)) {
-            return cb(errorLog(call, "<array> [{answers: <array>, stars: <array>, tags: <array>}, ...]", result));
-          }
-
-          cb(err, result);
-        });
+      // Questions
+      function (cb) {
+        makeRequest ("questions_qae", eservice, "string", function(result){ cb(null, result); });
       }
     ], function(err, results){
       //TODO: Process results
       var totalA = 0;
       var totalV = 0;
+      var totalText = "";
       var paragraphs = [];
 
       // console.log("ALL RESULTS");
@@ -225,45 +257,83 @@ router.get('/qandas/:eservice?', function(req, res, next) {
         next(err);
       } else {
 
-        if (results.length > 1 && Array.isArray(results[1])) {
-          results[1].forEach(function(obj){
-            totalA += obj.answers.length;
-            totalV += obj.stars.length;
+        console.log(results);
 
-            //TODO: Should be regarding a particular paragraph :)
-            // For now though, let's assume questions == paragraphs
 
-            var paragraph = {
-              index: paragraphs.length+1,
-              text: "This is a temporary paragraph text. In future versions, the corresponding text will be shown here.",
-              questions: 1,
-              answers: obj.answers.length,
-              votes: obj.stars.length,
-              tags: obj.tags
-            };
-            paragraphs.push(paragraph);
+        if (results.length == 2) {
+          try {
+            var questions = JSON.parse(results[1].value);
+            questions.forEach(function(q) {
+              totalA += q.answers.length;
+              totalV += q.stars.length;
 
-          });
+              totalText += q.content.length > 0? q.content+" " : "";
+
+              //TODO: Should be regarding a particular paragraph :)
+              // For now though, let's assume questions == paragraphs
+
+              var paragraph = {
+                index: paragraphs.length+1,
+                text: "This is a temporary paragraph text. In future versions, the corresponding text will be shown here.",
+                questions: 1,
+                answers: q.answers.length,
+                votes: q.stars.length,
+                tags: q.tags
+              };
+              paragraphs.push(paragraph);
+            });
+          } catch(e) {
+            console.log(e);
+          }
         }
 
 
 
+        // if (results.length > 1 && Array.isArray(results[1])) {
+        //   results[1].forEach(function(obj){
+        //     totalA += obj.answers.length;
+        //     totalV += obj.stars.length;
+        //
+        //     //TODO: Should be regarding a particular paragraph :)
+        //     // For now though, let's assume questions == paragraphs
+        //
+        //     var paragraph = {
+        //       index: paragraphs.length+1,
+        //       text: "This is a temporary paragraph text. In future versions, the corresponding text will be shown here.",
+        //       questions: 1,
+        //       answers: obj.answers.length,
+        //       votes: obj.stars.length,
+        //       tags: obj.tags
+        //     };
+        //     paragraphs.push(paragraph);
+        //
+        //   });
+        // }
+
+
+
         //WORD CLOUD
-        var cloud = wf.freq("word word word word cloud cloud cloud not not available", false, false);
-        //TODO: Results[7] should be the whole text to word-cloud
-        // var cloud = wf.freq(results[7], true, false);
+        if (totalText.length > 0) {
 
-        var topWords = Object.keys(cloud).sort(function(a, b){
-          return cloud[b] - cloud[a];
-        });
+          var cloud = wf.freq(totalText, false, false);
+          //TODO: Clean text from typical Spanish words
 
+          var topWords = Object.keys(cloud).sort(function(a, b){
+            return cloud[b] - cloud[a];
+          });
+
+
+        }
 
         var locals = {
-          total_questions: results.length > 1? results[0] : 0,
+          total_questions: results[0],
           total_answers: totalA,
           total_votes: totalV,
           paragraphs: paragraphs,
-          json: results.length > 1? JSON.stringify(results[1]) : [],
+          json: JSON.stringify(results),
+
+          eservice: eservice,
+
           word_cloud: JSON.stringify(topWords)
         };
 
@@ -285,20 +355,13 @@ router.get('/qandas/:eservice?', function(req, res, next) {
   }
 });
 
-router.get('/:page/:eservice?', function(req, res, next) {
-  res.render(req.params.page, function(err, html){
-    if(err) next(err);
-    else res.send(html);
-  });
-});
-
 
 router.post('/login', function(req, res, next) {
 
   console.log("Log in attempt by: " + req.body.username);
   req.session.hasSession = true;
 
-  var loginCreds = properties.getLoginUser();
+  var loginCreds = properties.getLogin();
 
   if (loginCreds.username.localeCompare(req.body.username) == 0 && loginCreds.password.localeCompare(req.body.password) == 0) {
     console.log("Log in successful!");
@@ -323,24 +386,24 @@ function requestCTZP (eservice, paragraph, type, callback){
   if(type == "questions") apicall = "/stats/questions/"+eservice+(paragraph? "/"+paragraph : "");
   if(type == "answers" || type == "votes") apicall = "/qae/questions/"+eservice+(paragraph? "/"+paragraph : "");
 
-  console.log("Request to: " + properties.getCTZP_URL()+apicall);
+  console.log("Request to: " + old_properties.getCTZP_URL()+apicall);
 
-  request(properties.getCTZP_URL()+apicall, function(error, response, body) {
+  request(old_properties.getCTZP_URL()+apicall, function(error, response, body) {
 
     if(error) {
-      console.error("Error on: " + properties.getCTZP_URL()+apicall);
+      console.error("Error on: " + old_properties.getCTZP_URL()+apicall);
       console.error(error);
       return callback(error);
     } else {
       if(typeof body === "string"){
         try {
           var objBody = JSON.parse(body);
-          return callback(null, objBody, properties.getCTZP_URL()+apicall);
+          return callback(null, objBody, old_properties.getCTZP_URL()+apicall);
         }catch(e){
-          return callback(null, body, properties.getCTZP_URL()+apicall);
+          return callback(null, body, old_properties.getCTZP_URL()+apicall);
         }
       }else{
-        return callback(null, body, properties.getCTZP_URL()+apicall);
+        return callback(null, body, old_properties.getCTZP_URL()+apicall);
       }
     }
 
@@ -358,11 +421,11 @@ function requestLogs (eservice, type, callback){
   if(type == "simpl") apicall = "/logs/find?common="+eservice+"&search=simplification_start";
   if(type == "cdv") apicall = "/logs/find?common="+eservice+"&search=usedata";
 
-  console.log("Request to: " + properties.getLogs_URL()+apicall);
+  console.log("Request to: " + old_properties.getLogs_URL()+apicall);
 
-  request(properties.getLogs_URL()+apicall, function(error, response, body) {
+  request(old_properties.getLogs_URL()+apicall, function(error, response, body) {
     if (error) {
-      console.log("Error on: " + properties.getLogs_URL()+apicall);
+      console.log("Error on: " + old_properties.getLogs_URL()+apicall);
       console.log(error);
       return callback(error);
     }
@@ -374,10 +437,10 @@ function requestLogs (eservice, type, callback){
       }catch(e){
         console.log(e);
       }finally{
-        return callback(null, objBody || body, properties.getLogs_URL()+apicall);
+        return callback(null, objBody || body, old_properties.getLogs_URL()+apicall);
       }
     }else{
-      return callback(null, body, properties.getLogs_URL()+apicall);
+      return callback(null, body, old_properties.getLogs_URL()+apicall);
     }
   });
 };

@@ -24,7 +24,9 @@
     "cdv": "Data - CDV",
     "feedback": "Feedback",
     "dates_graph": "Dates",
-    "times_graph": "Time"
+    "times_graph": "Time",
+    "emotions_empty": "Emotions pie chart unavailable",
+    "wordcloud_empty": "Word cloud unavailable"
   },
   "qandas": {
     "total_questions": "Total questions",
@@ -34,5 +36,9 @@
     "question_stats": "Question Statistics",
     "most_seen_topics": "Most viewed topics",
     "paragraph": "Paragraphs"
+  },
+  "login": {
+    "error": "ERROR: Invalid username or password",
+    "logout": "Logout"
   }
 }
