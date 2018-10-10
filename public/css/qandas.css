@@ -57,11 +57,14 @@
           margin: 3px;
           border: 1px solid #DDD;
           border-radius: 10px;
-          background-color: #b8e5ff; }
+          background-color: #b8e5ff;
+          cursor: pointer; }
       #service_paragraphs .service_paragraph .paragraph_info .ctzp_link {
         text-align: center; }
         #service_paragraphs .service_paragraph .paragraph_info .ctzp_link a:link, #service_paragraphs .service_paragraph .paragraph_info .ctzp_link a:visited, #service_paragraphs .service_paragraph .paragraph_info .ctzp_link a:active {
           color: #3992fb; }
+        #service_paragraphs .service_paragraph .paragraph_info .ctzp_link a:hover {
+          color: #1765c1; }
 
 .info_line {
   display: flex;

@@ -20,49 +20,51 @@ block content
         option(value="")= t('actions.choose_service')
         each eservice in eservices
           option(value=eservice.code)= eservice.name
-    #service_paragraphs
-      each pg in (paragraphs || [])
-        .service_paragraph
-          .service_excerpt
-            p= pg.text
-            .paragraph_number= t('qandas.paragraph') + pg.index
-          .paragraph_info
-            .info_line
-              span= t('qandas.total_questions')
-              span :
-              span= pg.questions
-            .info_line
-              span= t('qandas.total_answers')
-              span :
-              span= pg.answers
-            .info_line
-              span= t('qandas.total_votes')
-              span :
-              span= pg.votes
-            .tags
-              each tag in pg.tags
-                .tag= tag.text
-            .ctzp_link
-              a(href="")= t('qandas.see_ctzp')
+    if paragraphs
+      #service_paragraphs
+        each pg in (paragraphs || [])
+          .service_paragraph
+            .service_excerpt
+              p= pg.text
+              //- .paragraph_number= t('qandas.paragraph') + pg.index
+            .paragraph_info
+              .info_line
+                span= t('qandas.total_questions')
+                span :
+                span= pg.questions
+              .info_line
+                span= t('qandas.total_answers')
+                span :
+                span= pg.answers
+              .info_line
+                span= t('qandas.total_votes')
+                span :
+                span= pg.votes
+              .tags
+                each tag in pg.tags
+                  .tag(data-href="https://simpatico.hi-iberia.es:4569/qae/questions/list/"+tag.text)= tag.text
+              .ctzp_link
+                a(href="https://simpatico.hi-iberia.es:4569/qae/questions/show/"+pg.id)= t('qandas.see_ctzp')
         
           
 
-  .right_content
-    #question_stats
-      h2= t('qandas.question_stats')
-      .info_line
-        span= t('qandas.total_questions')
-        span :
-        span= total_questions.value
-      .info_line
-        span= t('qandas.total_answers')
-        span :
-        span= total_answers
-      .info_line
-        span= t('qandas.total_votes')
-        span :
-        span= total_votes
-      
-    #cloud= t('qandas.most_seen_topics')
-      canvas#cloud_canvas(width="400" height="220")
+  if total_questions
+    .right_content
+      #question_stats
+        h2= t('qandas.question_stats')
+        .info_line
+          span= t('qandas.total_questions')
+          span :
+          span= total_questions.value
+        .info_line
+          span= t('qandas.total_answers')
+          span :
+          span= total_answers
+        .info_line
+          span= t('qandas.total_votes')
+          span :
+          span= total_votes
         
+      #cloud= t('qandas.most_seen_topics')
+        canvas#cloud_canvas(width="400" height="220")
+          

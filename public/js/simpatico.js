@@ -8,6 +8,10 @@ $(document).ready(function(){
     $('.header_tab a[href="'+part+'"]').parent().addClass('active');
   });
 
+  $('#simpatico_logo').click(function() {
+    window.location.href = "/";
+  });
+
   $('.header_tab a').click(function(e){
     e.preventDefault();
     var pathpart = window.location.pathname.split("/");

@@ -12,6 +12,10 @@ $(document).ready(function(){
     window.location.href=baseURL+"qandas/"+$(this).val();
   });
 
+  $('.tag').click(function() {
+    window.location.href = $(this).data('href');
+  });
+
 
   var list = [];
   var fontSizes = [24, 20, 20, 20, 18, 18, 18, 16, 16, 16, 16, 16, 14, 14, 14, 14, 14];

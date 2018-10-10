@@ -46,7 +46,8 @@ block content
       //-   button#hour_graph
       //-     i.fa.fa-line-chart
       //-     = t('stats.times_graph')
-      //- #service_map
+      #service_map
+        #map_canvas
         
       
         
@@ -110,6 +111,7 @@ block content
               +progressLine(t('stats.useful'), wae_useful)
               +progressLine(t('stats.simpl_relevant'), wae_relevant)
             
+    script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALvoutWZi0ZHZCGzEQ5qE9YDMd2bIOHUc&libraries=drawing&callback=initMap" async defer)
 
     
 mixin statsLine(header, obj)

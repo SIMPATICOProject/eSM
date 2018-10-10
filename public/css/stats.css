@@ -41,6 +41,11 @@
     #service_information > div .result {
       float: right; }
 
+#service_map {
+  margin-top: 30px; }
+  #service_map #map_canvas {
+    height: 400px; }
+
 #info_graphic {
   display: flex;
   flex-direction: row; }

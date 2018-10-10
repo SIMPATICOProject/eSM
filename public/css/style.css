@@ -27,7 +27,8 @@ button {
   border: 1px solid #ddd; }
   #simpatico_header #simpatico_logo {
     flex: 0 0 300px;
-    padding: 10px; }
+    padding: 10px;
+    cursor: pointer; }
     #simpatico_header #simpatico_logo img {
       height: 50px;
       max-width: 200px; }

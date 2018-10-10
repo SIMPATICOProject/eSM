@@ -1,0 +1,9 @@
+{
+	"version": 3,
+	"file": "simpl.css",
+	"sources": [
+		"simpl.sass"
+	],
+	"mappings": "AAEA,AAAA,aAAa,CAAC;EACZ,SAAS,EAAE,IAAK;EAChB,UAAU,EAAE,MAAO;EACnB,KAAK,EAAE,IAAK,GAAG",
+	"names": []
+}

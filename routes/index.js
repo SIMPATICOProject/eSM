@@ -6,6 +6,7 @@ var router = express.Router();
 
 // var old_properties = require('../properties_old');
 var properties = require('../properties');
+var PARAGRAPHS = require('../paragraphs.json');
 
 
 var NOTAVAILABLE = "N/A";
@@ -257,13 +258,14 @@ router.get('/qandas/:eservice?', function(req, res, next) {
         next(err);
       } else {
 
-        console.log(results);
+        // console.log(results);
 
 
         if (results.length == 2) {
           try {
             var questions = JSON.parse(results[1].value);
-            questions.forEach(function(q) {
+            questions.reverse();
+            questions.forEach(function(q, index) {
               totalA += q.answers.length;
               totalV += q.stars.length;
 
@@ -272,9 +274,21 @@ router.get('/qandas/:eservice?', function(req, res, next) {
               //TODO: Should be regarding a particular paragraph :)
               // For now though, let's assume questions == paragraphs
 
+              var paragraphTag = "Paragraph"+(index+1);
+              for(var i = 0; i<q.tags.length; i++){
+                if (q.tags[i].text.indexOf('Paragraph') == 0) {
+                  paragraphTag = q.tags[i].text;
+                  break;
+                }
+              }
+              console.log("**************");
+              console.log(paragraphTag);
+              console.log(q.tags);
+
               var paragraph = {
+                id: q._id,
                 index: paragraphs.length+1,
-                text: "This is a temporary paragraph text. In future versions, the corresponding text will be shown here.",
+                text: PARAGRAPHS[eservice][paragraphTag] || "This is a temporary paragraph text. In future versions, the corresponding text will be shown here.",
                 questions: 1,
                 answers: q.answers.length,
                 votes: q.stars.length,
@@ -353,6 +367,15 @@ router.get('/qandas/:eservice?', function(req, res, next) {
       else res.send(html);
     });
   }
+});
+
+
+router.get('/simpl/:eservice?', function(req, res, next) {
+  var locals = {};
+  res.render('simpl', locals, function(err, html) {
+    if (err) next(err);
+    else res.send(html);
+  });
 });
 
 
