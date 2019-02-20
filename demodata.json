@@ -1,0 +1,116 @@
+{
+  "BS607A": {
+    "pos4": {
+      "show": true,
+      "value": [20, 21, 12]
+    },
+    "pos6": {
+      "show": true,
+      "value": 23
+    },
+    "pos7": {
+      "show": true,
+      "value": 68
+    },
+    "pos9": {
+      "show": true,
+      "value": 33
+    },
+    "pos10": {
+      "show": true,
+      "value": 58
+    },
+    "pos12": {
+      "show": true,
+      "value": 78
+    },
+    "pos13": {
+      "show": true,
+      "value": 80
+    },
+    "pos15": {
+      "show": true,
+      "value": 60
+    },
+    "pos16": {
+      "show": true,
+      "value": 81
+    }
+  },
+  "BS611A": {
+    "pos4": {
+      "show": true,
+      "value": [40, 12, 10]
+    },
+    "pos6": {
+      "show": true,
+      "value": 40
+    },
+    "pos7": {
+      "show": true,
+      "value": 60
+    },
+    "pos9": {
+      "show": true,
+      "value": 30
+    },
+    "pos10": {
+      "show": true,
+      "value": 26
+    },
+    "pos12": {
+      "show": true,
+      "value": 69
+    },
+    "pos13": {
+      "show": true,
+      "value": 76
+    },
+    "pos15": {
+      "show": true,
+      "value": 63
+    },
+    "pos16": {
+      "show": true,
+      "value": 83
+    }
+  },
+  "BS613B": {
+    "pos4": {
+      "show": true,
+      "value": [12, 10, 3]
+    },
+    "pos6": {
+      "show": true,
+      "value": 45
+    },
+    "pos7": {
+      "show": true,
+      "value": 57
+    },
+    "pos9": {
+      "show": true,
+      "value": 54
+    },
+    "pos10": {
+      "show": true,
+      "value": 47
+    },
+    "pos12": {
+      "show": true,
+      "value": 64
+    },
+    "pos13": {
+      "show": true,
+      "value": 90
+    },
+    "pos15": {
+      "show": true,
+      "value": 45
+    },
+    "pos16": {
+      "show": true,
+      "value": 73
+    }
+  }
+}

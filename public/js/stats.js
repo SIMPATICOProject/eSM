@@ -88,24 +88,33 @@ function initMap () {
 
   console.log(map);
 
-  var drawingManager = new google.maps.drawing.DrawingManager({
-   drawingMode: google.maps.drawing.OverlayType.MARKER,
-   drawingControl: true,
-   drawingControlOptions: {
-     position: google.maps.ControlPosition.TOP_CENTER,
-     drawingModes: ['rectangle']
-   },
-   markerOptions: {icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'},
-   rectangleOptions: {
-     fillColor: '#000000',
-     fillOpacity: 0.2,
-     strokeWeight: 2,
-     clickable: false,
-     editable: false,
-     zIndex: 1
-   }
+  var kmlMap = new google.maps.KmlLayer({
+    url: 'https://simpatico.hi-iberia.es:4570/esm/kml/pruebas.kml'
   });
-  drawingManager.setMap(map);
+
+  kmlMap.setMap(map);
+
+
+  // Draw in map
+
+  // var drawingManager = new google.maps.drawing.DrawingManager({
+  //  drawingMode: google.maps.drawing.OverlayType.MARKER,
+  //  drawingControl: true,
+  //  drawingControlOptions: {
+  //    position: google.maps.ControlPosition.TOP_CENTER,
+  //    drawingModes: ['rectangle']
+  //  },
+  //  markerOptions: {icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'},
+  //  rectangleOptions: {
+  //    fillColor: '#000000',
+  //    fillOpacity: 0.2,
+  //    strokeWeight: 2,
+  //    clickable: false,
+  //    editable: false,
+  //    zIndex: 1
+  //  }
+  // });
+  // drawingManager.setMap(map);
 
   var rectangle;
 

@@ -9,6 +9,7 @@ var properties = require('../properties');
 var PARAGRAPHS = require('../paragraphs.json');
 
 
+
 var NOTAVAILABLE = "N/A";
 
 
@@ -83,6 +84,7 @@ function makeRequest (key, eservice, expected, callback) {
 router.get('/stats/:eservice?', function(req, res, next) {
 
   var eservice = req.params.eservice;
+
   if (eservice) {
     async.parallel([
 
@@ -173,6 +175,25 @@ router.get('/stats/:eservice?', function(req, res, next) {
         makeRequest ("wae_relevant", eservice, "number", function(result){ cb(null, result); });
       }
     ], function(err, results){
+
+
+
+      if (req.session.demo) {
+        try {
+          var demoData = require('../demodata.json');
+
+          for (var i=0; i<results.length; i++){
+            if (demoData.hasOwnProperty(eservice) && demoData[eservice].hasOwnProperty('pos'+i)) {
+              results[i] = demoData[eservice]['pos'+i];
+            }
+          }
+        } catch(e) {
+          console.log(e);
+        }
+      }
+
+
+
       var locals = {
         eservice: eservice,
 
@@ -341,6 +362,12 @@ router.post('/login', function(req, res, next) {
   if (loginCreds.username.localeCompare(req.body.username) == 0 && loginCreds.password.localeCompare(req.body.password) == 0) {
     console.log("Log in successful!");
     res.send({success: true});
+
+  } else if (req.body.username.localeCompare("demo") == 0 && req.body.password.localeCompare("demo") == 0) {
+
+    req.session.demo = true;
+    res.send({success: true});
+
   } else {
     console.log("Log in failed!")
     res.send({error: true});
